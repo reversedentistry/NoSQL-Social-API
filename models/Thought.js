@@ -1,30 +1,39 @@
 const { Schema, model } = require('mongoose');
+const moment = require("moment")
 
 const thoughtSchema = new Schema(
     {
         thoughtText: {
             type: String,
             required: true,
-            minLength: 1, 
+            minLength: 1,
             maxLength: 280
-        }, 
+        },
         createdAt: {
-            // current timestamp
-            // getter
+            type: Date,
+            default: Date.now,
+            get: formatDate
         },
         username: {
             type: String,
             required: true
-        }, 
-        reactions: [{ 
+        },
+        reactions: [{
             type: Schema.Type.ObjectId,
             ref: "reactions"
         }]
-    }, 
+    },
     {
-        toJSON: {virtuals: true}
+        toJSON: {
+            virtuals: true,
+        }, 
+        id: false
     }
-); 
+);
+
+formatDate = (createdAt) => {
+    return moment(createdAt).format("MMM Do, YYYY")
+} 
 
 thoughtSchema.virtual("reactionCount").get(function () {
     return this.reactions.length;
