@@ -32,7 +32,8 @@ const thoughtSchema = new Schema(
 );
 
 formatDate = (createdAt) => {
-    return moment(createdAt).format("MMM Do, YYYY")
+    const date = createdAt.toString();
+    return moment(date).format("MMM Do, YYYY")
 } 
 
 thoughtSchema.virtual("reactionCount").get(function () {
