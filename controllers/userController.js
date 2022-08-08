@@ -21,5 +21,16 @@ module.exports = {
         User.create(req.body)
         .then((user) => res.json(user))
         .catch((err) => res.status(500).json(err));
+    }, 
+    // editUser(req, res) {},
+    deleteUser(req, res) {
+        User.findOneAndRemove({ _id: req.params.userId })
+        .then((user) =>
+        !user
+        ? res.status(404).json({ message: "No user with this ID" })
+        : Thought.deleteMany({ _id: { $in: user.thoughts }})
+        )
+        .then(() => res.json({ message: "User and thoughts deleted." }))
+        .catch((err) => res.status(500).json(err));
     }
 }
