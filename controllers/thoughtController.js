@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongoose').Types;
-const { Thought } = require("../models");
+const { User, Thought } = require("../models");
 
 module.exports = {
     getThoughts(req, res) {
@@ -22,7 +22,13 @@ module.exports = {
     },
     createThought(req, res) {
         Thought.create(req.body)
-            .then((thought) => res.json(thought))
+            .then((thought) => {
+                return User.findOneAndUpdate(
+                    { _id: thought.userId },
+                    { $addToSet: { thoughts: thought } },
+                    { runValidators: true, new: true }
+                )
+            })
             .catch((err) => res.status(500).json(err));
     },
     editThought(req, res) {
