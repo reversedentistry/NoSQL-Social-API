@@ -24,10 +24,16 @@ module.exports = {
         Thought.create(req.body)
             .then((thought) => {
                 return User.findOneAndUpdate(
-                    { _id: thought.userId },
+                    { _id: req.body.userId },
                     { $addToSet: { thoughts: thought } },
-                    { runValidators: true, new: true }
+                    { new: true }
                 )
+                    .then((user) => {
+                        !user
+                            ? res.status(404).json({ message: "No user with this ID." })
+                            : res.json("Created a new thought")
+                    })
+
             })
             .catch((err) => res.status(500).json(err));
     },
