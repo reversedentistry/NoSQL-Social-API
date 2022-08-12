@@ -31,7 +31,7 @@ module.exports = {
                     .then((user) => {
                         !user
                             ? res.status(404).json({ message: "No user with this ID." })
-                            : res.json("Created a new thought")
+                            : res.json(user)
                     })
 
             })
