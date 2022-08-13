@@ -60,6 +60,8 @@ To delete a reaction, use the URL above but appended with the ID of the chosen r
 
 PUT requests cannot be made for reactions. 
 
+[Click here for a demo video.](https://youtu.be/AX4TUhg7VgE)
+
 ### Screenshots
 ![Screenshot showing a GET request to view all users](./assets/screenshot1.PNG)
 
